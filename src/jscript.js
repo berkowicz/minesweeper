@@ -2,11 +2,10 @@ const board = [];
 const columns = 10;
 const rows = 10;
 
-let minesCount = 20;
+let minesCount = 10;
 const minesLocation = []; // ex. "1-2", "column-rows"
 
 let tilesClicked = 0;
-let flagEnable = false;
 let gameOver = false;
 
 //Places mines randomly
@@ -84,6 +83,7 @@ function checkMine(c, r) {
   if (board[c][r].classList.contains('tile-clicked')) {
     return;
   }
+  let tile = board[c][r];
   //Adds tile-clicked style to clicked tile
   board[c][r].classList.add('tile-clicked');
   tilesClicked += 1;
@@ -132,7 +132,7 @@ function checkTiles(c, r) {
   if (r < 0 || r >= rows || c < 0 || c >= columns) {
     return 0;
   }
-  if (minesLocation.includes(r.toString() + '-' + c.toString())) {
+  if (minesLocation.includes(c.toString() + '-' + r.toString())) {
     return 1;
   }
   return 0;
