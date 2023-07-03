@@ -1,10 +1,10 @@
 const board = [];
 const columns = 10;
 const rows = 10;
+const minesCount = 10;
 
-let minesCount = 10;
-const minesLocation = []; // ex. "1-2", "column-rows"
-
+let minesLocation = []; // ex. "1-2", "column-rows"
+let clockSeconds = 0;
 let tilesClicked = 0;
 let gameOver = false;
 
@@ -27,6 +27,7 @@ function setMines() {
 const init = function () {
   document.getElementById('mines-count').textContent = minesCount;
   setMines();
+
   //Fills board with tiles
   for (let i = 0; i < columns; i++) {
     let columns = [];
@@ -149,4 +150,59 @@ function revealMines() {
       }
     }
   }
+}
+
+//Timer
+let gameArea = document.querySelector('.mine-feild');
+gameArea.addEventListener('click', startTimer);
+let timer = document.querySelector('.time');
+function startTimer() {
+  if (!timer.classList.contains('time-active')) {
+    timer.classList.add('time-active');
+    interval = setInterval(increment, 1000);
+  }
+}
+function increment() {
+  if (timer.classList.contains('time-active') && gameOver == false) {
+    clockSeconds++;
+    if (clockSeconds < 10)
+      timer.innerText = 'Time: 00' + clockSeconds.toString();
+    if (clockSeconds >= 10)
+      timer.innerText = 'Time: 0' + clockSeconds.toString();
+    if (clockSeconds >= 100)
+      timer.innerText = 'Time: ' + clockSeconds.toString();
+  }
+}
+
+//New game eventlistner
+let newGame = document.querySelector('.new-game');
+newGame.addEventListener('click', clickNewGame);
+
+//New game
+function clickNewGame() {
+  gameOver = false;
+  minesLocation = [];
+  tilesClicked = 0;
+  clockSeconds = 0;
+  timer.classList.remove('time-active');
+  timer.innerText = 'Time: 000';
+  clearInterval(interval);
+
+  for (let i = 0; i < columns; i++) {
+    for (let j = 0; j < rows; j++) {
+      let tile = board[i][j];
+      if (
+        tile.classList.contains('tile-clicked') ||
+        tile.innerText == '🚩' ||
+        tile.innerText == '💣'
+      ) {
+        tile.innerText = '';
+        tile.style.backgroundColor = 'darkgray';
+        tile.classList.remove('tile-clicked');
+        tile.classList.remove('x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8');
+        tile.classList.add('tile');
+      }
+    }
+  }
+  setMines();
 }

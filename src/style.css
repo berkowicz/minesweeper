@@ -45,6 +45,9 @@ body {
   align-self: center;
 }
 
+.time-active {
+}
+
 .mine-feild {
   display: flex;
   flex-wrap: wrap;
