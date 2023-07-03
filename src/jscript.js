@@ -167,9 +167,9 @@ function increment() {
     clockSeconds++;
     if (clockSeconds < 10)
       timer.innerText = 'Time: 00' + clockSeconds.toString();
-    if (clockSeconds >= 10)
+    else if (clockSeconds >= 10 && clockSeconds <= 99)
       timer.innerText = 'Time: 0' + clockSeconds.toString();
-    if (clockSeconds >= 100)
+    else if (clockSeconds >= 100)
       timer.innerText = 'Time: ' + clockSeconds.toString();
   }
 }
